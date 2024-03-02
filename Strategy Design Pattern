@@ -157,3 +157,150 @@ public class Main {
 - Consider an e-commerce platform that needs to calculate discounts based on different strategies such as seasonal discounts, loyalty program discounts, or promotional discounts. 
   By using the Strategy Pattern, the platform can encapsulate each discount calculation algorithm into separate strategy classes. 
   This allows the platform to easily switch between different discount strategies based on customer profiles, current promotions, or seasonal sales without modifying the core codebase.
+
+------------------------ class -----------------------------
+// Define the PaymentOption class
+class PaymentOption {
+    constructor(strategy) {
+        this.strategy = strategy;
+        this.total = 0;
+    }
+
+    // Set the payment strategy
+    setStrategy(strategy) {
+        this.strategy = strategy;
+    }
+
+    // Create a payment using the current strategy
+    createPayment(amount) {
+        this.total += amount;
+        console.log(`Payment of $${amount} processed using ${this.strategy.getName()}.`);
+    }
+
+    // Refund a payment using the current strategy
+    refundPayment(amount) {
+        if (this.total >= amount) {
+            this.total -= amount;
+            console.log(`Refund of $${amount} processed using ${this.strategy.getName()}.`);
+        } else {
+            console.log("Insufficient funds for refund.");
+        }
+    }
+
+    // Get the total amount
+    getTotal() {
+        console.log(`Total: $${this.total}`);
+    }
+}
+
+// Define the payment strategy interface
+class PaymentStrategy {
+    constructor(name) {
+        this.name = name;
+    }
+
+    // Method to process payment
+    processPayment(amount) {
+        throw new Error("processPayment method must be implemented by subclass.");
+    }
+
+    // Method to get the name of the strategy
+    getName() {
+        return this.name;
+    }
+}
+
+// Define the PayPal strategy
+class PaypalStrategy extends PaymentStrategy {
+    constructor() {
+        super("PayPal");
+    }
+
+    processPayment(amount) {
+        console.log(`Payment processed through PayPal for $${amount}.`);
+    }
+}
+
+// Define the Stripe strategy
+class StripeStrategy extends PaymentStrategy {
+    constructor() {
+        super("Stripe");
+    }
+
+    processPayment(amount) {
+        console.log(`Payment processed through Stripe for $${amount}.`);
+    }
+}
+
+// Create instances with different payment strategies
+let stripePayment = new PaymentOption(new StripeStrategy());
+let paypalPayment = new PaymentOption(new PaypalStrategy());
+
+// Test payments
+stripePayment.createPayment(100);
+stripePayment.createPayment(200);
+stripePayment.getTotal();
+
+paypalPayment.createPayment(100);
+paypalPayment.refundPayment(10);
+paypalPayment.getTotal();
+
+stripePayment.getTotal();
+------------------------ Function ----------------------
+function PaymentOption(strategy) {
+    this.strategy = strategy;
+    this.total = 0;
+
+    this.createpayment = function (amount) {
+        this.total += amount;
+        this.strategy.pay(amount); // Using the strategy to perform payment
+    }
+
+    this.refundpayment = function (amount) {
+        this.total -= amount;
+        this.strategy.refund(amount); // Using the strategy to perform refund
+    }
+
+    this.getotal = function () {
+        this.strategy.total(this.total);
+    }
+}
+
+function PaypalStartegy() {
+    this.pay = function (amount) {
+        console.log(`Paid $${amount} via Paypal`);
+    }
+
+    this.refund = function (amount) {
+        console.log(`Refunded $${amount} via Paypal`);
+    }
+    this.total = function (amount) {
+        console.log(`Total $${amount} via Paypal`);
+    }
+}
+
+function StripeStartegy() {
+    this.pay = function (amount) {
+        console.log(`Paid $${amount} via Stripe`);
+    }
+
+    this.refund = function (amount) {
+        console.log(`Refunded $${amount} via Stripe`);
+    }
+    this.total = function (amount) {
+        console.log(`Total $${amount} via Stripe`);
+    }
+}
+
+let stripePayment = new PaymentOption(new StripeStartegy());
+let paypalPayment = new PaymentOption(new PaypalStartegy());
+
+stripePayment.createpayment(100);
+stripePayment.createpayment(200);
+stripePayment.getotal();
+
+paypalPayment.createpayment(100);
+paypalPayment.refundpayment(10);
+paypalPayment.getotal();
+
+stripePayment.getotal();
