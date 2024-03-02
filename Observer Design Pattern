@@ -165,3 +165,26 @@ public class Main {
 Consider a weather monitoring system where multiple displays need to be updated whenever the weather conditions change. 
   Each display acts as an observer, and the weather station serves as the subject. When the weather data is updated, all registered displays (observers) are notified and update their information accordingly.
   This decouples the weather station from the individual displays, allowing for flexibility and ease of maintenance in the system.
+
+
+------------ Function -----------------
+function  YoutubeChahanle (){
+    this.subscribelist = [];
+    this.subscribe = function(subscriber) {
+        this.subscribelist.push(subscriber)
+    }
+     this.unsubscribe = function(subscriber){
+      this.subscribelist = this.subscribelist.filter(sub=>sub.id != subscriber.id)
+    }
+    this.notifyme = function(){
+        for(let sub of  this.subscribelist ){
+            console.log(`hi ${sub.name}, Now your items are  available `)
+        }
+    }
+}
+
+let newchanl = new YoutubeChahanle()
+
+var sub1 = newchanl.subscribe({id:1,name:"Rajni"})
+var sub2 = newchanl.subscribe({id:2,name:"V"})
+var sub3 = newchanl.subscribe({id:3,name:"H"})
