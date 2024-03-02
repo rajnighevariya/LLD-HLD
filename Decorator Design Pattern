@@ -278,3 +278,60 @@ console.log("With leather work:", myCar.price(), myCar.drive());
 
 myCar = new AlloyWheelsDecorator(myCar);
 console.log("With alloy wheels:", myCar.price(), myCar.drive());
+
+
+---------------------------------------------------------------------------------------------
+
+// Base car function representing a basic car
+function Car() {
+  this.price = 10000;
+  this.drive = function() {
+    return "Driving car";
+  }
+}
+
+// Decorator function to add sunroof feature
+function addSunroof(car) {
+  car.price += 2000;
+  car.sunroof = true;
+  return car;
+}
+
+// Decorator function to add leather work feature
+function addLeatherWork(car) {
+  car.price += 1500;
+  car.leatherWork = true;
+  return car;
+}
+
+// Decorator function to add alloy wheels feature
+function addAlloyWheels(car) {
+  car.price += 1000;
+  car.alloyWheels = true;
+  return car;
+}
+
+// SUV car function using decorators
+function SUVCar() {
+  var car = new Car();
+  car.price += 5000; // Additional cost for SUV
+  car = addSunroof(car);
+  car = addAlloyWheels(car);
+  return car;
+}
+
+// Sedan car function using decorators
+function SedanCar() {
+  var car = new Car();
+  car = addLeatherWork(car);
+  car = addAlloyWheels(car);
+  return car;
+}
+
+// Usage
+var suvCar = new SUVCar();
+console.log(suvCar);
+
+var sedanCar = new SedanCar();
+console.log(sedanCar);
+
