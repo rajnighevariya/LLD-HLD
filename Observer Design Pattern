@@ -188,3 +188,37 @@ let newchanl = new YoutubeChahanle()
 var sub1 = newchanl.subscribe({id:1,name:"Rajni"})
 var sub2 = newchanl.subscribe({id:2,name:"V"})
 var sub3 = newchanl.subscribe({id:3,name:"H"})
+
+
+------- class --------
+class Youtubechannel {
+    constructor () {
+        this.subscriblist = [];
+    }
+    subscribe(sub) {
+        this.subscriblist.push(sub);
+    }
+    unsubscribe(subee) {
+        this.subscriblist = this.subscriblist.filter(sub => sub.id != subee.id);
+    }
+    listall() {
+        console.log("listall", this.subscriblist);
+    }
+    sendnofication() {
+        for (let sub of this.subscriblist) {
+            console.log(`Hi ${sub.name}, Hurree! Your Favorite Items Now Available`);
+        }
+    }
+}
+
+let cretChl = new Youtubechannel();
+let sub1 = cretChl.subscribe({ id: 1, name: "Rajni" })
+let sub2 = cretChl.subscribe({ id: 2, name: "hardik" })
+let sub3 = cretChl.subscribe({ id: 3, name: "vishukaha" })
+let sub4 = cretChl.subscribe({ id: 4, name: "brijeta" })
+let sub5 = cretChl.subscribe({ id: 5, name: "papa" })
+console.log(sub5)
+cretChl.listall();
+cretChl.unsubscribe({ id: 5, name: "papa" })
+cretChl.listall();
+cretChl.sendnofication();
