@@ -1,0 +1,280 @@
+The Decorator Design Pattern is a structural pattern that allows behavior to be added to individual objects, either statically or dynamically, without affecting the behavior of other objects from the same class.
+It's particularly useful when you need to add functionality to objects in a flexible and reusable way.
+
+The Decorator pattern is a design pattern that allows extending or modifying the functionality of an object, method, or class, without altering (changing) its structure. 
+It is often used when you want to add responsibilities to objects dynamically, making your code more flexible and maintainable.
+
+### Example Code:
+
+#### JavaScript (Class):
+```javascript
+class Coffee {
+  cost() {
+    return 5;
+  }
+}
+
+class MilkDecorator {
+  constructor(coffee) {
+    this.coffee = coffee;
+  }
+  
+  cost() {
+    return this.coffee.cost() + 2;
+  }
+}
+
+const myCoffee = new Coffee();
+const myCoffeeWithMilk = new MilkDecorator(myCoffee);
+
+console.log(myCoffeeWithMilk.cost()); // Output: 7
+```
+
+#### JavaScript (Function):
+```javascript
+function coffee() {
+  return {
+    cost: () => 5,
+  };
+}
+
+function withMilk(coffee) {
+  return {
+    cost: () => coffee.cost() + 2,
+  };
+}
+
+const myCoffee = coffee();
+const myCoffeeWithMilk = withMilk(myCoffee);
+
+console.log(myCoffeeWithMilk.cost()); // Output: 7
+```
+
+#### Python:
+```python
+class Coffee:
+    def cost(self):
+        return 5
+
+class MilkDecorator:
+    def __init__(self, coffee):
+        self._coffee = coffee
+
+    def cost(self):
+        return self._coffee.cost() + 2
+
+my_coffee = Coffee()
+my_coffee_with_milk = MilkDecorator(my_coffee)
+print(my_coffee_with_milk.cost())  # Output: 7
+```
+
+#### Java:
+```java
+interface Coffee {
+    int cost();
+}
+
+class SimpleCoffee implements Coffee {
+    @Override
+    public int cost() {
+        return 5;
+    }
+}
+
+class MilkDecorator implements Coffee {
+    private final Coffee coffee;
+
+    public MilkDecorator(Coffee coffee) {
+        this.coffee = coffee;
+    }
+
+    @Override
+    public int cost() {
+        return coffee.cost() + 2;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Coffee myCoffee = new SimpleCoffee();
+        Coffee myCoffeeWithMilk = new MilkDecorator(myCoffee);
+        System.out.println(myCoffeeWithMilk.cost()); // Output: 7
+    }
+}
+```
+
+### Real-World Usage:
+- **UI Widgets**: Adding decorators to graphical objects like borders, shadows, etc., without altering the base component.
+- **Input/Output Streams**: Wrapping streams with decorators to add functionalities like encryption, compression, or buffering.
+- **Authentication Middleware**: Adding authentication decorators to web endpoints for ensuring authorized access to resources.
+
+### Advantages:
+- **Open/Closed Principle**: Allows adding new functionalities without altering existing code.
+- **Single Responsibility Principle**: Each decorator class handles a single responsibility, making code more modular and maintainable.
+- **Code Reusability**: Decorators can be reused across different objects and contexts.
+
+### Disadvantages:
+- **Complexity**: As the number of decorators increases, it may become challenging to understand the order of execution and the overall behavior.
+- **Runtime Overhead**: Using too many decorators or complex decorators might introduce runtime overhead due to the multiple layers of wrapping.
+
+### Solutions:
+- **Clear Documentation**: Documenting the order of decorators and their responsibilities can mitigate confusion.
+- **Careful Design**: Designing decorators with a clear understanding of their responsibilities and interactions can reduce complexity.
+- **Performance Optimization**: Profiling and optimizing critical paths to reduce runtime overhead introduced by decorators.
+
+
+// Interface for Car
+class Car {
+  constructor() {
+    this.price = 0;
+  }
+
+  getDescription() {
+    return "Basic Car";
+  }
+
+  getPrice() {
+    return this.price;
+  }
+}
+
+// Concrete Car implementations
+class SUV extends Car {
+  constructor() {
+    super();
+    this.price = 20000;
+  }
+
+  getDescription() {
+    return "SUV";
+  }
+}
+
+class Sedan extends Car {
+  constructor() {
+    super();
+    this.price = 18000;
+  }
+
+  getDescription() {
+    return "Sedan";
+  }
+}
+
+// Decorator for adding sunroof
+class SunroofDecorator extends Car {
+  constructor(car) {
+    super();
+    this.car = car;
+  }
+
+  getDescription() {
+    return this.car.getDescription() + ", with Sunroof";
+  }
+
+  getPrice() {
+    return this.car.getPrice() + 1000; // Adding sunroof costs $1000
+  }
+}
+
+// Decorator for adding leather work
+class LeatherWorkDecorator extends Car {
+  constructor(car) {
+    super();
+    this.car = car;
+  }
+
+  getDescription() {
+    return this.car.getDescription() + ", with Leather Work";
+  }
+
+  getPrice() {
+    return this.car.getPrice() + 1500; // Adding leather work costs $1500
+  }
+}
+
+// Decorator for adding alloy wheels
+class AlloyWheelsDecorator extends Car {
+  constructor(car) {
+    super();
+    this.car = car;
+  }
+
+  getDescription() {
+    return this.car.getDescription() + ", with Alloy Wheels";
+  }
+
+  getPrice() {
+    return this.car.getPrice() + 1200; // Adding alloy wheels costs $1200
+  }
+}
+
+// Usage
+let myCar = new SUV();
+myCar = new SunroofDecorator(myCar);
+myCar = new LeatherWorkDecorator(myCar);
+myCar = new AlloyWheelsDecorator(myCar);
+
+console.log(myCar.getDescription()); // Output: "SUV, with Sunroof, with Leather Work, with Alloy Wheels"
+console.log("Total Price: $" + myCar.getPrice()); // Output: "Total Price: $23700"
+----------------- Funcation ----------------
+// Base Car class
+function Car() {
+  this.price = 20000;
+}
+
+Car.prototype.drive = function() {
+  return "Driving car";
+}
+
+// Decorator for adding a sunroof
+function SunroofDecorator(car) {
+  this.car = car;
+}
+
+SunroofDecorator.prototype.price = function() {
+  return this.car.price + 1000;
+}
+
+SunroofDecorator.prototype.drive = function() {
+  return this.car.drive() + " with sunroof";
+}
+
+// Decorator for adding leather work
+function LeatherWorkDecorator(car) {
+  this.car = car;
+}
+
+LeatherWorkDecorator.prototype.price = function() {
+  return this.car.price + 1500;
+}
+
+LeatherWorkDecorator.prototype.drive = function() {
+  return this.car.drive() + " with leather work";
+}
+
+// Decorator for adding alloy wheels
+function AlloyWheelsDecorator(car) {
+  this.car = car;
+}
+
+AlloyWheelsDecorator.prototype.price = function() {
+  return this.car.price + 2000;
+}
+
+AlloyWheelsDecorator.prototype.drive = function() {
+  return this.car.drive() + " with alloy wheels";
+}
+
+// Usage
+let myCar = new Car();
+console.log("Base car:", myCar.price, myCar.drive());
+
+myCar = new SunroofDecorator(myCar);
+console.log("With sunroof:", myCar.price(), myCar.drive());
+
+myCar = new LeatherWorkDecorator(myCar);
+console.log("With leather work:", myCar.price(), myCar.drive());
+
+myCar = new AlloyWheelsDecorator(myCar);
+console.log("With alloy wheels:", myCar.price(), myCar.drive());
