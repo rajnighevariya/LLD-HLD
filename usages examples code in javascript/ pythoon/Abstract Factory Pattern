@@ -362,3 +362,36 @@ modernTable.place();    // Output: Placing objects on a modern table.
 
 victorianChair.sit();   // Output: Sitting on a Victorian chair.
 victorianTable.place(); // Output: Placing objects on a Victorian table.
+
+Certainly! Let's break down the Abstract Factory pattern definition:
+
+**Abstract Factory Pattern Definition:**
+
+The Abstract Factory pattern is a creational design pattern that provides an interface for creating families of related or dependent objects without specifying their concrete classes. It allows clients to create objects without knowing their concrete types, promoting loose coupling between clients and the created objects. 
+
+**Key Components:**
+
+1. **Abstract Factory:** This is an interface or abstract class defining methods for creating families of related objects, such as creating chairs, tables, and sofas in a furniture factory example. It declares a set of methods, each responsible for creating a particular type of product.
+
+2. **Concrete Factory:** These are concrete implementations of the abstract factory interface. Each concrete factory is responsible for creating a family of related objects. For example, a `ModernFurnitureFactory` might create modern-style chairs, tables, and sofas.
+
+3. **Abstract Product:** This is an interface or abstract class defining the interface for a type of product object. For instance, the `Chair` and `Table` abstract classes define methods like `sit()` and `place()` respectively, which the concrete products must implement.
+
+4. **Concrete Product:** These are concrete implementations of the abstract product interface. Each concrete product corresponds to a particular variant or type of the product. For instance, `ModernChair`, `ModernTable`, etc., implement the `Chair` and `Table` interfaces to create modern-style furniture.
+
+5. **Client:** The client code uses the abstract factory interface to create families of related objects without being concerned about the concrete classes of the objects being created. It remains independent of the specific classes of objects it creates.
+
+**Usage Scenario:**
+
+The Abstract Factory pattern is suitable when an application needs to support multiple families of related or dependent objects and needs to switch between them easily. It promotes the creation of families of objects in a consistent manner, ensuring that the objects created by a factory are compatible with each other. This pattern is commonly used in GUI toolkits, where different themes or styles require different sets of widgets or components.
+
+**Benefits:**
+
+- Encapsulates object creation: Objects are created by factories, hiding the creation logic from the client.
+- Promotes loose coupling: Clients interact with factories and products through abstract interfaces, reducing dependencies on concrete implementations.
+- Supports interchangeable families: Different factories can produce objects with the same interface, allowing easy substitution of one family of objects with another.
+
+**Drawbacks:**
+
+- Expanding the families of objects may require modifying the abstract factory interface and all concrete implementations, which can introduce complexity and maintenance overhead.
+- Introducing new types of products may require extending both the abstract factory and concrete factories, potentially leading to increased code duplication.
