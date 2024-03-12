@@ -259,3 +259,106 @@ public class Main {
 
 ### Types:
 There aren't explicit types of Abstract Factory Pattern like in Factory Method or Simple Factory. However, variations in implementations might lead to different approaches. Some variations include the use of parameterized factories, hierarchical factories, or using the prototype pattern within the abstract factory.
+
+
+// Abstract Product A: Chair
+class Chair {
+  constructor() {
+    if (this.constructor === Chair) {
+      throw new Error("Cannot instantiate abstract class");
+    }
+  }
+  sit() {
+    throw new Error("Method 'sit()' must be implemented.");
+  }
+}
+
+// Concrete Product A: ModernChair
+class ModernChair extends Chair {
+  sit() {
+    console.log("Sitting on a modern chair.");
+  }
+}
+
+// Concrete Product A: VictorianChair
+class VictorianChair extends Chair {
+  sit() {
+    console.log("Sitting on a Victorian chair.");
+  }
+}
+
+// Abstract Product B: Table
+class Table {
+  constructor() {
+    if (this.constructor === Table) {
+      throw new Error("Cannot instantiate abstract class");
+    }
+  }
+  place() {
+    throw new Error("Method 'place()' must be implemented.");
+  }
+}
+
+// Concrete Product B: ModernTable
+class ModernTable extends Table {
+  place() {
+    console.log("Placing objects on a modern table.");
+  }
+}
+
+// Concrete Product B: VictorianTable
+class VictorianTable extends Table {
+  place() {
+    console.log("Placing objects on a Victorian table.");
+  }
+}
+
+// Abstract Factory
+class FurnitureFactory {
+  createChair() {
+    throw new Error("Method 'createChair()' must be implemented.");
+  }
+
+  createTable() {
+    throw new Error("Method 'createTable()' must be implemented.");
+  }
+}
+
+// Concrete Factory: ModernFurnitureFactory
+class ModernFurnitureFactory extends FurnitureFactory {
+  createChair() {
+    return new ModernChair();
+  }
+
+  createTable() {
+    return new ModernTable();
+  }
+}
+
+// Concrete Factory: VictorianFurnitureFactory
+class VictorianFurnitureFactory extends FurnitureFactory {
+  createChair() {
+    return new VictorianChair();
+  }
+
+  createTable() {
+    return new VictorianTable();
+  }
+}
+
+// Client code
+const modernFactory = new ModernFurnitureFactory();
+const victorianFactory = new VictorianFurnitureFactory();
+
+const modernChair = modernFactory.createChair();
+const modernTable = modernFactory.createTable();
+
+const victorianChair = victorianFactory.createChair();
+const victorianTable = victorianFactory.createTable();
+
+// Using the products
+modernChair.sit();      // Output: Sitting on a modern chair.
+modernTable.place();    // Output: Placing objects on a modern table.
+
+victorianChair.sit();   // Output: Sitting on a Victorian chair.
+victorianTable.place(); // Output: Placing objects on a Victorian table.
