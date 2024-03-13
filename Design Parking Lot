@@ -185,3 +185,95 @@ public class ParkingLot {
 - **Error Handling:** The design lacks comprehensive error handling, which is crucial for a real-world application.
 
 This design serves as a starting point. Depending on the specific requirements, additional features and optimizations can be implemented.
+
+
+
+
+// Define an interface for calculating fees
+class IFeeCalculator {
+    calculateFee(vehicleId, hours) {
+        throw new Error("Method 'calculateFee' must be implemented.");
+    }
+}
+
+// Concrete implementation of IFeeCalculator
+class StandardFeeCalculator extends IFeeCalculator {
+    calculateFee(vehicleId, hours) {
+        return hours * 10;
+    }
+}
+
+// Refactored ParkingSpace class
+class ParkingSpace {
+    constructor(spaceId, spaceType) {
+        this.spaceId = spaceId;
+        this.spaceType = spaceType;
+        this.vehicle = null;
+    }
+
+    parkVehicle(vehicle) {
+        if (!this.vehicle && vehicle.vehicleType === this.spaceType) {
+            this.vehicle = vehicle;
+            return true;
+        }
+        return false;
+    }
+
+    removeVehicle() {
+        this.vehicle = null;
+    }
+}
+
+// Refactored ParkingLot class
+class ParkingLot {
+    constructor(spaces, feeCalculator) {
+        this.spaces = spaces;
+        this.feeCalculator = feeCalculator;
+    }
+
+    parkVehicle(vehicle) {
+        for (let space of this.spaces) {
+            if (space.parkVehicle(vehicle)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    findSpace(vehicleType) {
+        for (let space of this.spaces) {
+            if (space.spaceType === vehicleType && !space.vehicle) {
+                return space;
+            }
+        }
+        return null;
+    }
+
+    calculateFee(vehicleId, hours) {
+        return this.feeCalculator.calculateFee(vehicleId, hours);
+    }
+}
+
+class Vehicle {
+    constructor(vehicleId, vehicleType) {
+        this.vehicleId = vehicleId;
+        this.vehicleType = vehicleType;
+    }
+}
+
+
+// Usage
+const spaces = [new ParkingSpace(1, 'compact'), new ParkingSpace(2, 'large')];
+const feeCalculator = new StandardFeeCalculator();
+const parkingLot = new ParkingLot(spaces, feeCalculator);
+
+const vehicle = new Vehicle('V123', 'car');
+if (parkingLot.parkVehicle(vehicle)) {
+    console.log("Vehicle parked successfully.");
+} else {
+    console.log("No available parking space.");
+}
+
+const fee = parkingLot.calculateFee(vehicle.vehicleId, 2);
+console.log(`Parking fee: $${fee}`);
+
