@@ -1,3 +1,12 @@
+ requirements for the system:
+
+Multilevel Parking Lot: The system should be able to accommodate vehicles in a multilevel parking lot.
+Multiple Categories of Parking Space: The parking lot should have multiple categories of parking spaces, possibly based on the size of the vehicle or any other criteria.
+Multiple Entry and Exit: The system should support multiple entry and exit points. This adds a layer of complexity in terms of concurrency control.
+Space Allocation: The system should ensure that the number of vehicles in each category does not exceed the allocated space.
+Hourly Charging: The system should charge vehicles on an hourly basis.
+Display Available Spaces: The system should display the available number of parking spaces for each category at the entry itself. This will help in informed decision-making for the users.
+--------------------
 Designing a parking lot system involves creating a system that can manage parking spaces, vehicles, and possibly payment processing. This system can be complex depending on the requirements, 
 such as handling different types of vehicles, managing parking spaces, and tracking the time vehicles are parked. 
 
