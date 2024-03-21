@@ -1,0 +1,94 @@
+**Design Logging System Using Chain of Responsibility Pattern**
+
+**Definition:**
+The Chain of Responsibility is a behavioral design pattern that allows passing requests along a chain of handlers. Upon receiving a request, each handler decides either to process the request or to pass it to the next handler in the chain.
+
+**Real Examples/Usages:**
+A logging system is a common example where the Chain of Responsibility pattern can be applied. Let's say you have different types of loggers (e.g., ConsoleLogger, FileLogger, DatabaseLogger) and you want to handle logging requests based on their severity (e.g., INFO, WARNING, ERROR).
+Each logger can be part of a chain and decides whether to handle the log or pass it to the next logger in the chain based on its own criteria.
+- ATM machine / Vending machine
+
+**Pros/Cons:**
+Pros:
+1. Decouples the sender and receiver of a request.
+2. Allows adding or removing responsibility dynamically.
+3. Simplifies object management by allowing multiple objects to handle the request without knowing the structure of the chain.
+4. Promotes a single responsibility principle by allowing each handler to focus on a single task.
+
+Cons:
+1. Requests may go unhandled if there's no handler in the chain capable of processing them.
+2. Debugging can be challenging as it's harder to trace the exact path of a request through the chain.
+
+**Code in JavaScript:**
+Below is a simplified example of a logging system using the Chain of Responsibility pattern in JavaScript.
+
+```javascript
+// Base logger class
+class Logger {
+    constructor(level) {
+        this.level = level;
+        this.next = null;
+    }
+
+    setNextLogger(nextLogger) {
+        this.next = nextLogger;
+    }
+
+    logMessage(level, message) {
+        if (this.level <= level) {
+            this.write(message);
+        }
+        if (this.next != null) {
+            this.next.logMessage(level, message);
+        }
+    }
+
+    write(message) {
+        throw new Error('Method "write" must be implemented');
+    }
+}
+
+// Concrete loggers
+class ConsoleLogger extends Logger {
+    constructor(level) {
+        super(level);
+    }
+
+    write(message) {
+        console.log(`Console Logger: ${message}`);
+    }
+}
+
+class FileLogger extends Logger {
+    constructor(level) {
+        super(level);
+    }
+
+    write(message) {
+        console.log(`File Logger: ${message}`);
+    }
+}
+
+class DatabaseLogger extends Logger {
+    constructor(level) {
+        super(level);
+    }
+
+    write(message) {
+        console.log(`Database Logger: ${message}`);
+    }
+}
+
+// Creating the chain
+const consoleLogger = new ConsoleLogger(1);
+const fileLogger = new FileLogger(2);
+const databaseLogger = new DatabaseLogger(3);
+
+consoleLogger.setNextLogger(fileLogger);
+fileLogger.setNextLogger(databaseLogger);
+
+// Usage
+consoleLogger.logMessage(2, "This is a warning message.");
+```
+
+In this example, log messages are passed through a chain of loggers, each with its own level of severity. The message is logged by the first logger capable of handling it based on its severity level.
